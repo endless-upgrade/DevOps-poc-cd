@@ -116,37 +116,33 @@ pipeline {
     success {
 
       echo "OK"
-//      script {
-//        header = "Job <${env.JOB_URL}|${env.JOB_NAME}> <${env.JOB_DISPLAY_URL}|(Blue)>"
-//        header += " build <${env.BUILD_URL}|${env.BUILD_DISPLAY_NAME}> <${env.RUN_DISPLAY_URL}|(Blue)>:"
-//        message = "${header}\n :smiley: All test passed :smiley: $notifyMessage"
-//
-//        author = sh(script: "git log -1 --pretty=%an", returnStdout: true).trim()
-//        commitMessage = sh(script: "git log -1 --pretty=%B", returnStdout: true).trim()
-//        message += " Commit by <@${author}> (${author}): ``` ${commitMessage} ``` "
-//        color = '#00CC00'
-//        slackSend(message: message,
-//                baseUrl: 'https://devops-pasquali-cm.slack.com/services/hooks/jenkins-ci/',
-//                color: color, token: 'ihoCVUPB7hqGz2xI1htD8x0F')
-//      }
+      script {
+        header = "Job <${env.JOB_URL}|${env.JOB_NAME}> <${env.JOB_DISPLAY_URL}|(Blue)>"
+        header += " build <${env.BUILD_URL}|${env.BUILD_DISPLAY_NAME}> <${env.RUN_DISPLAY_URL}|(Blue)>:"
+        message = "${header}\n :smiley: All test passed :smiley: $notifyMessage"
+
+        author = sh(script: "git log -1 --pretty=%an", returnStdout: true).trim()
+        commitMessage = sh(script: "git log -1 --pretty=%B", returnStdout: true).trim()
+        message += " Commit by <@${author}> (${author}): ``` ${commitMessage} ``` "
+        color = '#00CC00'
+        slackSend(message: message, baseUrl: 'https://devops-pasquali-cm.slack.com/services/hooks/jenkins-ci/', color: color, token: 'ihoCVUPB7hqGz2xI1htD8x0F')
+      }
     }
 
     failure {
 
       echo ":("
-//      script {
-//        header = "Job <${env.JOB_URL}|${env.JOB_NAME}> <${env.JOB_DISPLAY_URL}|(Blue)>"
-//        header += " build <${env.BUILD_URL}|${env.BUILD_DISPLAY_NAME}> <${env.RUN_DISPLAY_URL}|(Blue)>:"
-//        message = "${header}\n :sob: The Build Failed, Release not ready for production! :sob: : ``` ${failMessage} ```\n"
-//
-//        author = sh(script: "git log -1 --pretty=%an", returnStdout: true).trim()
-//        commitMessage = sh(script: "git log -1 --pretty=%B", returnStdout: true).trim()
-//        message += " Commit by <@${author}> (${author}): ``` ${commitMessage} ``` "
-//        color = '#990000'
-//        slackSend(message: message,
-//                baseUrl: 'https://devops-pasquali-cm.slack.com/services/hooks/jenkins-ci/',
-//                color: color, token: 'ihoCVUPB7hqGz2xI1htD8x0F')
-//      }
+      script {
+        header = "Job <${env.JOB_URL}|${env.JOB_NAME}> <${env.JOB_DISPLAY_URL}|(Blue)>"
+        header += " build <${env.BUILD_URL}|${env.BUILD_DISPLAY_NAME}> <${env.RUN_DISPLAY_URL}|(Blue)>:"
+        message = "${header}\n :sob: The Build Failed, Release not ready for production! :sob: : ``` ${failMessage} ```\n"
+
+        author = sh(script: "git log -1 --pretty=%an", returnStdout: true).trim()
+        commitMessage = sh(script: "git log -1 --pretty=%B", returnStdout: true).trim()
+        message += " Commit by <@${author}> (${author}): ``` ${commitMessage} ``` "
+        color = '#990000'
+        slackSend(message: message, baseUrl: 'https://devops-pasquali-cm.slack.com/services/hooks/jenkins-ci/', color: color, token: 'ihoCVUPB7hqGz2xI1htD8x0F')
+      }
     }
 
   }
