@@ -27,17 +27,17 @@ pipeline {
     stage('Unit Tests') {
       steps {
         echo 'Tests'
-        sh 'sbt clean test'
-        archiveArtifacts 'target/test-reports/*.xml'
-        junit(testResults: 'target/test-reports/DevOpsPOCSpec.xml',
-                allowEmptyResults: true)
+//        sh 'sbt clean test'
+//        archiveArtifacts 'target/test-reports/*.xml'
+//        junit(testResults: 'target/test-reports/DevOpsPOCSpec.xml',
+//                allowEmptyResults: true)
       }
     }
     stage('Build') {
       steps {
         echo 'Build'
-        sh 'sbt clean compile package assembly'
-        archiveArtifacts 'target/scala-*/*.jar'
+//        sh 'sbt clean compile package assembly'
+//        archiveArtifacts 'target/scala-*/*.jar'
       }
     }
     stage('Notify') {
@@ -100,7 +100,7 @@ pipeline {
             echo 'Safe to Deploy in Production, Great Job :D'
             sh "sudo cp target/*/*.jar ${TEMP}"
             sh "sudo cp -Rf conf/* ${TEMP}"
-            sh "cd ${DEPLOY_PLAY_SCRIPT_DIR} && sudo ${DEPLOY_PLAY_SCRIPT} ${DEPLOY_TARGET_HOST} ${TEMP} ${DEPLOY_TARGET_DIR}"
+            sh "sudo ${DEPLOY_PLAY_SCRIPT_DIR}/${DEPLOY_PLAY_SCRIPT} ${DEPLOY_TARGET_HOST} ${TEMP} ${DEPLOY_TARGET_DIR}"
           }
           else{
             echo "Nothng To Do"
