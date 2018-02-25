@@ -27,7 +27,7 @@ pipeline {
     stage('Unit Tests') {
       steps {
         echo 'Tests'
-        sh 'sbt clean test'
+//        sh 'sbt clean test'
 //        archiveArtifacts 'target/test-reports/*.xml'
 //        junit(testResults: 'target/test-reports/DevOpsPOCSpec.xml',
 //                allowEmptyResults: true)
