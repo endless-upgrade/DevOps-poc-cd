@@ -98,8 +98,8 @@ pipeline {
         script{
           if(env.BRANCH_NAME == "master") {
             echo 'Safe to Deploy in Production, Great Job :D'
-            sh "sudo cp target/*/*.jar ${DEPLOY_STAGING}"
-            sh "sudo cp -Rf conf/* ${DEPLOY_STAGING}"
+            sh "sudo cp target/*/*.jar ${TEMP}"
+            sh "sudo cp -Rf conf/* ${TEMP}"
             sh "cd ${DEPLOY_PLAY_SCRIPT_DIR} && sudo ${DEPLOY_PLAY_SCRIPT} ${DEPLOY_TARGET_HOST} ${TEMP} ${DEPLOY_TARGET_DIR}"
           }
           else{
