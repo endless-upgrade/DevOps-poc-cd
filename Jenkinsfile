@@ -1,3 +1,7 @@
+
+failMessage = ""
+notifyMessage = ""
+
 pipeline {
   agent any
   environment{
