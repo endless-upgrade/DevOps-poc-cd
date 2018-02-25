@@ -50,6 +50,9 @@ pipeline {
                     ' -m "$(git log -1 --pretty=%B)"'
             notifyMessage = "Pull Request Sent"
           }
+          else {
+            echo "Master Branch, nothing to merge"
+          }
         }
       }
     }
