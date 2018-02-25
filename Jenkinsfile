@@ -25,34 +25,34 @@ pipeline {
       steps {
         echo 'SBT manage dependencies, just test if is reachable'
         sh 'java -version'
-//        sh 'sbt about'
+        sh 'sbt about'
       }
     }
     stage('Unit Tests') {
       steps {
         echo 'Tests'
-//        sh 'sbt clean test'
-//        archiveArtifacts 'target/test-reports/*.xml'
-//        junit(testResults: 'target/test-reports/DevOpsPOCSpec.xml',
-//                allowEmptyResults: true)
+        sh 'sbt clean test'
+        archiveArtifacts 'target/test-reports/*.xml'
+        junit(testResults: 'target/test-reports/DevOpsPOCSpec.xml',
+                allowEmptyResults: true)
       }
     }
     stage('Build') {
       steps {
         echo 'Build'
-//        sh 'sbt clean compile package assembly'
-//        archiveArtifacts 'target/scala-*/*.jar'
+        sh 'sbt clean compile package assembly'
+        archiveArtifacts 'target/scala-*/*.jar'
       }
     }
     stage('Notify') {
       steps {
         script {
           if (env.BRANCH_NAME != "master") {
-//            sh "git checkout ${env.BRANCH_NAME}"
-//            sh 'source /etc/profile.d/exports.sh &&' +
-//                    ' /opt/hub-linux-386-2.3.0-pre10/bin/hub pull-request' +
-//                    ' -m "$(git log -1 --pretty=%B)"'
-//            notifyMessage = "Pull Request Sent"
+            sh "git checkout ${env.BRANCH_NAME}"
+            sh 'source /etc/profile.d/exports.sh &&' +
+                    ' /opt/hub-linux-386-2.3.0-pre10/bin/hub pull-request' +
+                    ' -m "$(git log -1 --pretty=%B)"'
+            notifyMessage = "Pull Request Sent"
           }
           else {
             echo "Master Branch, nothing to merge"
@@ -105,8 +105,8 @@ pipeline {
         script{
           if(env.BRANCH_NAME == "master") {
             echo 'Safe to Deploy in Production, Great Job :D'
-//            sh "sudo cp target/*/*.jar ${TEMP}"
-//            sh "sudo cp -Rf conf/* ${TEMP}"
+            sh "sudo cp target/*/*.jar ${TEMP}"
+            sh "sudo cp -Rf conf/* ${TEMP}"
             sh "sudo ${DEPLOY_PLAY_SCRIPT_DIR}${DEPLOY_PLAY_SCRIPT} ${DEPLOY_TARGET_HOST} ${TEMP} ${DEPLOY_TARGET_DIR}"
           }
           else{
