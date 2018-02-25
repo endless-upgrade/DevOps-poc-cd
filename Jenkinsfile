@@ -55,7 +55,6 @@ pipeline {
     }
     stage('Deploy ?') {
       steps{
-
         script{
           if(env.BRANCH_NAME == "master") {
             header = "Job <${env.JOB_URL}|${env.JOB_NAME}>" +
@@ -93,19 +92,18 @@ pipeline {
           }
         }
       }
-      stage('Production Deploy') {
-        steps {
-
-          script{
-            if(env.BRANCH_NAME == "master") {
-              echo 'Safe to Deploy in Production, Great Job :D'
-              sh "sudo cp target/*/*.jar ${DEPLOY_STAGING}"
-              sh "sudo cp -Rf conf/* ${DEPLOY_STAGING}"
-              sh "cd ${DEPLOY_PLAY_SCRIPT_DIR} && sudo ${DEPLOY_PLAY_SCRIPT} ${DEPLOY_TARGET_HOST} ${TEMP} ${DEPLOY_TARGET_DIR}"
-            }
-            else{
-             echo "Nothng To Do"
-            }
+    }
+    stage('Production Deploy') {
+      steps {
+        script{
+          if(env.BRANCH_NAME == "master") {
+            echo 'Safe to Deploy in Production, Great Job :D'
+            sh "sudo cp target/*/*.jar ${DEPLOY_STAGING}"
+            sh "sudo cp -Rf conf/* ${DEPLOY_STAGING}"
+            sh "cd ${DEPLOY_PLAY_SCRIPT_DIR} && sudo ${DEPLOY_PLAY_SCRIPT} ${DEPLOY_TARGET_HOST} ${TEMP} ${DEPLOY_TARGET_DIR}"
+          }
+          else{
+            echo "Nothng To Do"
           }
         }
       }
