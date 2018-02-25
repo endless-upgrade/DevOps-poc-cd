@@ -1,6 +1,6 @@
 pipeline {
   agent any
-  env{
+  environment{
 
     DEPLOY_TARGET_DIR = "/opt/poc"
     TEMP = "/opt/toProd"
@@ -53,12 +53,11 @@ pipeline {
         }
       }
     }
-    script{
-      if(env.BRANCH_NAME == "master") {
+    stage('Deploy ?') {
+      steps{
 
-        stage('Deploy ?') {
-          steps{
-
+        script{
+          if(env.BRANCH_NAME == "master") {
             header = "Job <${env.JOB_URL}|${env.JOB_NAME}>" +
                     " <${env.JOB_URL}|${env.BRANCH_NAME}>" +
                     " <${env.JOB_DISPLAY_URL}|(Blue)>"
@@ -84,19 +83,29 @@ pipeline {
                 userInput = input(
                         id: 'DeployPOC', message: 'Deploy in Production??')
               }
-            } catch(err) { // timeout reached or input false
+            } catch (err) { // timeout reached or input false
               failMessage = "Deploy session expired or aborted"
               error("Deploy session expired or aborted")
             }
-
+          }
+          else{
+            echo "Nothng To Do"
           }
         }
-        stage('Production Deploy') {
-          steps {
-            echo 'Safe to Deploy in Production, Great Job :D'
-            sh "sudo cp target/*/*.jar ${DEPLOY_STAGING}"
-            sh "sudo cp -Rf conf/* ${DEPLOY_STAGING}"
-            sh "cd ${DEPLOY_PLAY_SCRIPT_DIR} && sudo ${DEPLOY_PLAY_SCRIPT} ${DEPLOY_TARGET_HOST} ${TEMP} ${DEPLOY_TARGET_DIR}"
+      }
+      stage('Production Deploy') {
+        steps {
+
+          script{
+            if(env.BRANCH_NAME == "master") {
+              echo 'Safe to Deploy in Production, Great Job :D'
+              sh "sudo cp target/*/*.jar ${DEPLOY_STAGING}"
+              sh "sudo cp -Rf conf/* ${DEPLOY_STAGING}"
+              sh "cd ${DEPLOY_PLAY_SCRIPT_DIR} && sudo ${DEPLOY_PLAY_SCRIPT} ${DEPLOY_TARGET_HOST} ${TEMP} ${DEPLOY_TARGET_DIR}"
+            }
+            else{
+             echo "Nothng To Do"
+            }
           }
         }
       }
